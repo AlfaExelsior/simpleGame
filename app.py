@@ -1,40 +1,60 @@
-import random  # Import for generating random choices
-import emoji  # Import for displaying emojis
+import random
+import emoji
 
-# Function to get and validate player's choice
+# Expanded choices with corresponding emojis
+choices = {
+    "🪨": "Rock",
+    "📄": "Paper",
+    "✂️": "Scissors",
+    "🦎": "Lizard",
+    "🖖": "Spock"
+}
+
+# Function to get and validate player's choice (updated)
 def get_player_choice():
-    while True:  # Loop until a valid choice is made
-        print("Choose:")  # Display options
-        print("1. 🪨 Rock")
-        print("2. 📄 Paper")
-        print("3. ✂️ Scissors")
+    while True:
+        print("Choose your champion:")
+        for i, (emoji_choice, name) in enumerate(choices.items()):
+            print(f"{i+1}. {emoji_choice} {name}")
 
-        choice = input("Enter your choice (1/2/3): ")
-        if choice in ['1', '2', '3']:  # Check if choice is valid
-            return int(choice)  # Convert choice to integer and return
+        choice = input("Enter your choice (1-5): ")
+        if choice.isdigit() and 1 <= int(choice) <= len(choices):
+            return list(choices.keys())[int(choice) - 1]  # Return the chosen emoji
         else:
-            print("Invalid choice. Please try again.")  # Error message
+            print("Invalid choice. Please try again.")
 
-# Function to generate computer's random choice
+# Function to generate computer's random choice (updated)
 def get_computer_choice():
-    return random.randint(1, 3)  # Randomly choose 1, 2, or 3
+    return random.choice(list(choices.keys()))  # Randomly choose from all emojis
 
-# Function to determine and display the winner
+# Function to determine and display the winner (updated)
 def determine_winner(player_choice, computer_choice):
-    choices = ["🪨", "📄", "✂️"]  # Emojis for Rock, Paper, Scissors
+    print(f"\nYou chose: {player_choice} {choices[player_choice]}")
+    print(f"Computer chose: {computer_choice} {choices[computer_choice]}")
 
-    print(f"\nYou chose: {emoji.emojize(choices[player_choice - 1])}")  # Display player's choice with emoji
-    print(f"Computer chose: {emoji.emojize(choices[computer_choice - 1])}")  # Display computer's choice with emoji
-
-    # Determine the winner based on classic RPS rules
     if player_choice == computer_choice:
         print("It's a tie!")
-    elif (player_choice == 1 and computer_choice == 3) or \
-         (player_choice == 2 and computer_choice == 1) or \
-         (player_choice == 3 and computer_choice == 2):
-        print("You win!")
+    elif (player_choice, computer_choice) in [
+        ("🪨", "✂️"), ("🪨", "🦎"),
+        ("📄", "🪨"), ("📄", "🖖"),
+        ("✂️", "📄"), ("✂️", "🦎"),
+        ("🦎", "📄"), ("🦎", "🖖"),
+        ("🖖", "🪨"), ("🖖", "✂️")
+    ]:
+        print("You win! 🎉")
     else:
-        print("Computer wins!")
+        print("Computer wins! 🤖")
+
+# Main game loop (updated)
+while True:
+    player_choice = get_player_choice()
+    computer_choice = get_computer_choice()
+    determine_winner(player_choice, computer_choice)
+
+    play_again = input("Play again? (y/n): ").lower()
+    if play_again != 'y':
+        break
+
 
 # Main game loop
 while True:  # Keep playing until user chooses to stop
