@@ -1,1 +1,1 @@
-# simpleGame
+# Rock Paper Scissors
