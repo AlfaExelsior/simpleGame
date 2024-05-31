@@ -10,7 +10,7 @@ choices = {
     "🖖": "Spock"
 }
 
-# Function to get and validate player's choice (Corrected)
+# Function to get and validate player's choice
 def get_player_choice():
     while True:
         print("Choose your champion:")
@@ -27,11 +27,25 @@ def get_player_choice():
 def get_computer_choice():
     return random.choice(list(choices.keys()))  
 
-# Function to determine and display the winner (Unchanged)
+# Function to determine and display the winner
 def determine_winner(player_choice, computer_choice):
-    # ... (rest of the function is the same)
+    print(f"\nYou chose: {player_choice} {choices[player_choice]}")
+    print(f"Computer chose: {computer_choice} {choices[computer_choice]}")
 
-# Main game loop (Unchanged)
+    if player_choice == computer_choice:
+        print("It's a tie!")
+    elif (player_choice, computer_choice) in [
+        ("🪨", "✂️"), ("🪨", "🦎"),
+        ("📄", "🪨"), ("📄", "🖖"),
+        ("✂️", "📄"), ("✂️", "🦎"),
+        ("🦎", "📄"), ("🦎", "🖖"),
+        ("🖖", "🪨"), ("🖖", "✂️")
+    ]:
+        print("You win! 🎉")
+    else:
+        print("Computer wins! 🤖")
+
+# Main game loop
 while True:
     player_choice = get_player_choice()
     computer_choice = get_computer_choice()
@@ -40,4 +54,5 @@ while True:
     play_again = input("Play again? (y/n): ").lower()
     if play_again != 'y':
         break
+
 
